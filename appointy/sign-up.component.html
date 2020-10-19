@@ -1,0 +1,63 @@
+
+<div class="row">
+  <div class="col.s8.offset-s2">
+    <div class="card">
+      <div class="sm-jumbotron centre-align">
+        <h2>User Registration</h2>
+      </div>
+      <form name="userregister" class="col s12 white" #UserRegistrationForm="ngForm" (ngSubmit)="onSubmit(UserRegistrationForm)" autocomplete="off">
+        <div class="row">
+          <input type="text" class="validate" name="username" #username="ngModel" [(ngModel)]="user.username" required>
+          <label data-error="Required Field">Username</label>
+        </div>
+        <div class="row">
+          <input type="password" class="validate" name="password" #password="ngModel" [(ngModel)]="user.password" required minlength="6">
+          <label [attr.data-error]="password.errors != null?(password.errors.required?'Required Field':'Minimum 6 characters'):''">Password</label>
+          <span toggle="#password" class="fa fa-fw fa-eye field-icon toggle-password"></span>
+        </div>
+        <div class="row">
+          <input type="password" class="validate" name="confirmpassword" appConfirmEqualValidator="password" #confirmpassword="ngModel" [(ngModel)]="user.confirmpassword" required minlength="6">
+          <label [attr.data-error]="confirmpassword.errors != null?(confirmpassword.errors.required?'Required Field':'Minimum 6 characters'):''">Confirm Password</label>
+          <span class="help-block"
+                *ngIf="confirmpassword.touched && confirmpassword.errors?.required">Confirm Password is required!</span>
+          <span class="help-block"
+                *ngIf="confirmpassword.touched && confirmpassword.errors?.notEqual">Password & Confirm Password does not match!</span>
+          <span toggle="#confirmpassword" class="fa fa-fw fa-eye field-icon toggle-password"></span>
+        </div>
+        <div class="row">
+          <input type="text" name="email" class="validate" #email="ngModel" [(ngModel)]="user.email" required [pattern]="emailPattern">
+          <label data-error="Invalid E-mail">Email</label>
+        </div>
+        <div class="row">
+          <input type="text" class="validate" name="mobile" #mobile="ngModel" [(ngModel)]="user.mobile" required>
+          <label data-error="Required Field">Mobile</label>
+        </div>
+        <div class="dropdown">
+          <select id="customertype" name="customertype">
+
+            <option value="2" name="member">Member</option>
+            <option value="3" name="partner">Partner</option>
+          </select>
+          <label data-error="Required Field">Customer type</label>
+        </div>
+              <select name="customertype" [(ngModel)]="user.roleid" (onChange)="roleAllFn(user.roleid)" required>
+          <option *ngFor="let role of rolelist" [ngValue]="role.roleid" (onChange)="roleAllFn(role)">
+            {{role.rolename}}>
+          </option>
+        </select>
+
+
+        <div class="row">
+          <input type="text" class="validate" name="invitedbycode" #invitedbycode="ngModel" [(ngModel)]="user.invitedbycode" required>
+          <label data-error="Required Field">Invitecode</label>
+        </div>
+        <div class="row">
+          <div class="input-field col s12">
+            <button class="btn-large btn-submit" [disabled]="!UserRegistrationForm.valid" type="submit">Submit</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
